@@ -12,6 +12,8 @@ def reverse(str):
 def reverse_words(str):
     """Reverses the letters in each word of a string."""
     words = str.split()
+    if not words:  # check if list is empty
+        return ""
     new_words = reverse(words[0])
     for word in words[1:]:
         new_words += ' ' + reverse(word)
@@ -35,8 +37,10 @@ def sarcastic(str):
 def find_longest_word(sentence):
     """Returns the longest word in a sentence."""
     words_list = sentence.split()
+    if not words_list:  # check if list is empty
+        return ""
     longest_word = words_list[0]
     for word in words_list:
         if len(word) > len(longest_word):
             longest_word = word
-    return word
+    return longest_word  # return longest_word, not word
