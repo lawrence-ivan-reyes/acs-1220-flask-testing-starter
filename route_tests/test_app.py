@@ -36,13 +36,22 @@ class ColorTests(TestCase):
         self.assertEqual(expected_page_text, result_page_text)
 
     def test_color_results_light_green(self):
-        # TODO: Fill in this function to test the color route with the color 
-        # 'light green'.
-        pass
+        result = app.test_client().get('/color_results?color=green')
+
+        self.assertEqual(result.status_code, 200)
+
+        result_page_text = result.get_data(as_text=True)
+        expected_page_text = 'Wow, light green is my favorite color, too!'
+        self.assertEqual(expected_page_text, result_page_text)
 
     def test_color_results_empty(self):
-        # TODO: Fill in this function to test the color route with no color.
-        pass
+        result = app.test_client().get('/color_results?color=')
+
+        self.assertEqual(result.status_code, 200)
+
+        result_page_text = result.get_data(as_text=True)
+        expected_page_text = 'You did not specify a colour'
+        self.assertEqual(expected_page_text, result_page_text)
 
 
 #######################
@@ -51,24 +60,42 @@ class ColorTests(TestCase):
 
 class FroyoTests(TestCase):
     def test_froyo_results_scenario1(self):
-        # TODO: Fill in this function to test the show_froyo_results route under a
-        # specific scenario.
-        pass
+        result = app.test_client().get('/froyo_results?flavor=chocolate&toppings=sprinkles')
+
+        self.assertEqual(result.status_code, 200)
+
+        result_page_text = result.get_data(as_text=True)
+        expected_page_text = 'You ordered chocolate flavoured Froyo with sprinkle topping'
+        self.assertEqual(expected_page_text, result_page_text)
 
     def test_froyo_results_scenario2(self):
-        # TODO: Fill in this function to test the show_froyo_results route under a
-        # specific scenario.
-        pass
+        result = app.test_client().get('/froyo_results?flavor=vanilla&toppings=oreo')
+
+        self.assertEqual(result.status_code, 200)
+
+        result_page_text = result.get_data(as_text=True)
+        expected_page_text = 'You ordered vanilla flavoured Froyo with oreo topping'
+        self.assertEqual(expected_page_text, result_page_text)
 
     def test_froyo_results_edgecase1(self):
-        # TODO: Fill in this function to test the show_froyo_results route under a
-        # specific EDGE CASE scenario.
-        pass
+        """Empty flavour"""
+        result = app.test_client().get('/froyo_results?flavor=&toppings=sprinkles')
+
+        self.assertEqual(result.status_code, 200)
+
+        result_page_text = result.get_data(as_text=True)
+        expected_page_text = 'You ordered _ flavoured Froyo with sprinkle topping'
+        self.assertEqual(expected_page_text, result_page_text)
 
     def test_froyo_results_edgecase2(self):
-        # TODO: Fill in this function to test the show_froyo_results route under a
-        # specific EDGE CASE scenario.
-        pass
+        """Empty toppings"""
+        result = app.test_client().get('/froyo_results?flavor=chocolate&toppings=')
+
+        self.assertEqual(result.status_code, 200)
+
+        result_page_text = result.get_data(as_text=True)
+        expected_page_text = 'You ordered chocolate flavoured Froyo with _ toppings'
+        self.assertEqual(expected_page_text, result_page_text)
 
 
 #######################
@@ -87,14 +114,26 @@ class MessageTests(TestCase):
         self.assertIn('dlroW olleH', result_page_text)
 
     def test_message_results_scenario2(self):
-        # TODO: Fill in this function to test the message_results route under 
-        # another scenario.
-        pass
+        """Palindrome"""
+        form_data = {
+            'message': 'racecar'
+        }
+        res = app.test_client().post('/message_results', data=form_data)
+        self.assertEqual(res.status_code, 200)
+
+        result_page_text = res.get_data(as_text=True)
+        self.assertIn('racecar', result_page_text)
 
     def test_message_results_edgecase1(self):
-        # TODO: Fill in this function to test the message_results route under 
-        # an edge case scenario.
-        pass
+        """Empty string"""
+        form_data = {
+            'message': ''
+        }
+        res = app.test_client().post('/message_results', data=form_data)
+        self.assertEqual(res.status_code, 200)
+
+        result_page_text = res.get_data(as_text=True)
+        self.assertIn('', result_page_text)
 
 
 #######################
@@ -103,9 +142,14 @@ class MessageTests(TestCase):
 
 class CalculatorTests(TestCase):
     def test_calculator_results_scenario1(self):
-        # TODO: Fill in this function to test the calculator_results route under a
-        # specific scenario.
-        pass
+        """Addition"""
+        result = app.test_client().get('/calculator_results?operand=5&operand=3&operation=add')
+
+        self.assertEqual(result.status_code, 200)
+
+        result_page_text = result.get_data(as_text=True)
+        expected_page_text = 'You ordered chocolate flavoured Froyo with _ toppings'
+        self.assertEqual(expected_page_text, result_page_text)
 
     def test_calculator_results_scenario2(self):
         # TODO: Fill in this function to test the calculator_results route under a
